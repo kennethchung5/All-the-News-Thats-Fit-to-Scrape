@@ -5,7 +5,8 @@ const Schema = mongoose.Schema;
 const ArticleSchema = new Schema({  
   headline: {
     type: String,
-    required: true
+    required: true, 
+    unique: true
   },
   author: {
     type: String
@@ -18,6 +19,10 @@ const ArticleSchema = new Schema({
   url: {
     type: String,
     required: true
+  },
+  saved: {
+    type: Boolean,
+    default: false
   },
   comments: {
     type: Schema.Types.ObjectId,

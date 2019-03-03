@@ -61,7 +61,65 @@ app.get("/scrape", (req, res) => {
     });
   });
 
+app.get("/", (req, res) => {
+  res.redirect("/articles"); 
+})
 
+app.get("/articles", (req, res) => {
+
+  db.Article.find({saved: false})
+            .then(dbArticle => {
+              res.render("article", {articles: dbArticle})
+            })
+            .catch(error => {
+              res.json(error);
+            })
+
+})
+
+
+app.get("/saved", (req, res) => {
+
+  db.Article.find({saved: true})
+            .then(dbArticle => {
+              res.render("article", {articles: dbArticle})
+            })
+            .catch(error => {
+              res.json(error);
+            })
+})
+
+//route for saving an article; update saved to true
+app.put("/articles/update/:id", (req, res) => {
+  // console.log(`The put route is hit. The articleID is: ${req.params.id}`)
+  db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: true}}, {new: true})
+            .then(dbArticle => {
+              res.json("/articles")
+            })
+
+})
+
+
+app.get("/testroute", (req, res) => {
+
+    const testArray = [
+      {
+        id: 1, 
+        description: "toothbrush"
+      }, 
+      {
+        id: 2, 
+        description: "floss"
+      },
+      {
+        id: 3,
+        description: "mouthwash"
+      }
+    ]
+
+    res.render("index", {items: testArray});
+
+})
 
 
 
