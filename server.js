@@ -90,13 +90,27 @@ app.get("/saved", (req, res) => {
 })
 
 //route for saving an article; update saved to true
-app.put("/articles/update/:id", (req, res) => {
+app.put("/articles/:id", (req, res) => {
   // console.log(`The put route is hit. The articleID is: ${req.params.id}`)
   db.Article.findOneAndUpdate({_id: req.params.id}, {$set: {saved: true}}, {new: true})
             .then(dbArticle => {
               res.json("/articles")
             })
+            .catch(error => {
+              res.json(error);
+            })
 
+})
+
+app.delete("/articles/:id", (req, res) => {
+  db.Article.findOneAndDelete({_id: req.params.id})
+            .then(() => {
+              //not sure what needs to be done here...
+              res.json("/saved")
+            })
+            .catch(error => {
+              res.json(error);
+            })
 })
 
 

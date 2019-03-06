@@ -10,10 +10,18 @@ $(document).on("click", ".saveButton", event => {
 
     $.ajax({
         method: "PUT",
-        url: `articles/update/${$(event.currentTarget).attr("data-articleID")}`
+        url: `articles/${$(event.currentTarget).attr("data-articleID")}`
     }).then(() => {
         location.reload();
-    }
+    })
+})
 
-    )
+$(document).on("click", ".deleteButton", event => {
+    
+    $.ajax({
+        method: "DELETE",
+        url: `articles/${$(event.currentTarget).attr("data-articleID")}`
+    }).then(() => {
+        location.reload();
+    })
 })
