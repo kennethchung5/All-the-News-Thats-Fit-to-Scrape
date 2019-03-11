@@ -1,0 +1,38 @@
+<div class="modal" id="commentsModal" tabindex="-1" role="dialog" >
+
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        
+        
+        <div class="modal-header">
+          <h5 class="modal-title">Comments</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+
+        {{#each comments}}
+        <div class="modal-body">
+          <p>{{this.bodyText}}</p>
+          <a href="#" class=" btn btn-danger" data-dismiss="modal" data-commentID={{this._id}}>&times;</a>
+        </div>
+        {{/each}}
+        
+        
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">New comment</label>
+          <textarea class="form-control" id="commentInput" rows="2"></textarea>
+        </div>
+        
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="saveCommentButton btn btn-primary" data-articleID={{_id}}>Save comment</button>
+        </div>
+
+
+      </div>
+  </div>
+
+</div>

@@ -57,7 +57,8 @@ app.get("/scrape", (req, res) => {
           });
       });
   
-      res.send("Scrape Complete");
+      // res.send("Scrape Complete");
+      res.redirect("/articles"); 
     });
   });
 
@@ -111,6 +112,49 @@ app.delete("/articles/:id", (req, res) => {
             .catch(error => {
               res.json(error);
             })
+})
+
+
+//route for retrieving comments
+app.get("/articles/:id", (req, res) => {
+
+  //need to res.render passing articleID and 
+  db.Article.findOne({_id: req.params.id})
+            .populate("comments")
+            .then(dbArticle => {
+              // res.json(dbArticle);
+
+              console.log(dbArticle);
+
+              // res.render("comment", dbArticle)
+
+              // res.render("comment", {layout: false, dbArticle});
+              res.render("comment", {layout: false, _id: dbArticle._id, comments: dbArticle.comments});
+
+              // res.json(dbArticle);
+            })
+            .catch(error => {
+              res.json(error);
+            })
+
+
+})
+
+
+//route for posting comments
+app.post("/articles/:id", (req, res) => {
+
+  db.Comment.create(req.body)
+            .then(dbComment => {
+              return db.Article.findOneAndUpdate({_id: req.params.id}, {$push: {comments: dbComment._id}}, {new: true})
+            })
+            .then(dbArticle => {
+              res.json(dbArticle);
+            })
+            .catch(error => {
+              res.json(error);
+            })
+
 })
 
 
